@@ -17,7 +17,7 @@ f = Figure(figsize=(5, 4), dpi=100)
 a = f.add_subplot(111)  # 1x1 plot no 1
 
 
-def animate():
+def animate(i):
     pullData = open('sample.csv', 'r').read()
     dataList = pullData.split('\n')
     xl = []

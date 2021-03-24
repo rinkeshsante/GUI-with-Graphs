@@ -17,7 +17,7 @@ f = Figure(figsize=(5, 4), dpi=100)
 a = f.add_subplot(111)  # 1x1 plot no 1
 
 
-def animate():
+def animate(i):
     pullData = open('sample.csv', 'r').read()
     dataList = pullData.split('\n')
     xl = []
@@ -34,23 +34,23 @@ def animate():
 # for later session
 
 
-def animateWithApi(link):
-    data = urllib.request.urlopen(link)
-    data = data.readall().decode('utf-8')
-    data = json.loads(data)
-    data = data['keyname']
+# def animateWithApi(link):
+#     data = urllib.request.urlopen(link)
+#     data = data.readall().decode('utf-8')
+#     data = json.loads(data)
+#     data = data['keyname']
 
-    data = pd.dataFrame(data)
+#     data = pd.dataFrame(data)
 
-    buys = data[(data['type'] == 'ask')]
-    buys['datestamp'] = np.array(buys['timestamp'].astype('datetime64[s]'))
-    buyDates = (buys['datestamp']).tolist()
+#     buys = data[(data['type'] == 'ask')]
+#     buys['datestamp'] = np.array(buys['timestamp'].astype('datetime64[s]'))
+#     buyDates = (buys['datestamp']).tolist()
 
-    sells = data[(data['type'] == 'sell')]
+#     sells = data[(data['type'] == 'sell')]
 
-    a.clear()
-    a.plot_date(buyDates, buys['price'])
-    a.plot_date(buyDates, sells['price'])
+#     a.clear()
+#     a.plot_date(buyDates, buys['price'])
+#     a.plot_date(buyDates, sells['price'])
 
 
 class Gui(tk.Tk):
