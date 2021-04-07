@@ -15,77 +15,23 @@ from matplotlib import pyplot as plt
 matplotlib.use('TkAgg')
 
 # current graph
-fI = Figure()
-aI = fI.add_subplot(111)  # 1x1 plot no 1
+fig = Figure()
 
-# voltage graph
-# fV = Figure(figsize=(5, 4), dpi=100)
-# aV = fV.add_subplot(111)  # 1x1 plot no 1
-
-# # power graph
-# fP = Figure(figsize=(5, 4), dpi=100)
-# aP = fP.add_subplot(111)  # 1x1 plot no 1
-
-# # effeicinecy graph
-# fE = Figure(figsize=(5, 4), dpi=100)
-# aE = fE.add_subplot(111)  # 1x1 plot no 1
+plt1 = fig.add_subplot(211)
+plt2 = fig.add_subplot(212)
 
 
 def animate(i):
-    pullData = open('sample.csv', 'r').read()
-    dataList = pullData.split('\n')
+    data = pd.read_csv('sample.csv')
 
-    tl = []
-    il = []
-    vl = []
-    pl = []
-    el = []
+    print('refresed')
+    print(data)
 
-    for line in dataList:
-        if len(line) > 1:
-            # print(line)
-            t, i, v, p, e = line.split(',')
-            tl.append(float(t))
-            il.append(float(i))
-            vl.append(float(v))
-            pl.append(float(p))
-            el.append(float(e))
+    plt1.clear()
+    plt1.plot(data)
 
-    # print(tl, il, vl, pl, el)
-    print('refresded')
-
-    aI.clear()
-    aI.plot(tl, il)
-
-    # aV.clear()
-    # aV.plot(tl, vl)
-
-    # ap.clear()
-    # ap.plot(tl, pl)
-
-    # aE.clear()
-    # aE.plot(tl, el)
-
-# for later session
-
-
-# def animateWithApi(link):
-#     data = urllib.request.urlopen(link)
-#     data = data.readall().decode('utf-8')
-#     data = json.loads(data)
-#     data = data['keyname']
-
-#     data = pd.dataFrame(data)
-
-#     buys = data[(data['type'] == 'ask')]
-#     buys['datestamp'] = np.array(buys['timestamp'].astype('datetime64[s]'))
-#     buyDates = (buys['datestamp']).tolist()
-
-#     sells = data[(data['type'] == 'sell')]
-
-#     a.clear()
-#     a.plot_date(buyDates, buys['price'])
-#     a.plot_date(buyDates, sells['price'])
+    plt2.clear()
+    plt2.plot(data)
 
 
 class Gui(tk.Tk):
@@ -93,7 +39,7 @@ class Gui(tk.Tk):
         super().__init__()
         # windows setting
         self.title('BelifeSat Power')
-        self.geometry('700x600')
+        self.geometry('1200x600')
         # self.iconphoto(False, tk.PhotoImage(file='icon.png'))
 
         # added container
@@ -161,32 +107,6 @@ class Dashbaord(tk.Frame):
         btn1.pack(side='top')
 
 
-# class PowerPage(tk.Frame):
-#     def __init__(self, parent, controller):
-#         tk.Frame.__init__(self, parent)
-
-#         label1 = ttk.Label(self, text='hi , Its Power Page')
-#         label1.pack()
-
-#         btn1 = ttk.Button(self, text='<- back',
-#                           command=lambda: controller.show_frame(StartPage))
-#         btn1.pack()
-
-#         # first calculate , then display graph
-
-#         # f = Figure(figsize=(5, 4), dpi=100)
-#         # a = f.add_subplot(111)  # 1x1 plot no 1
-#         # a.plot([1, 2, 3, 4], [82, 34, 11, 90])
-
-#         canvas = FigureCanvasTkAgg(fI, self)
-#         canvas.draw()
-#         canvas.get_tk_widget().pack()
-
-#         toolbar = NavigationToolbar2Tk(canvas, self)
-#         toolbar.update()
-#         canvas._tkcanvas.pack()
-
-
 class CurrentGraph(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -198,7 +118,7 @@ class CurrentGraph(tk.Frame):
                           command=lambda: controller.show_frame(StartPage))
         btn1.pack()
 
-        canvas = FigureCanvasTkAgg(fI, self)
+        canvas = FigureCanvasTkAgg(fig, self)
         canvas.draw()
         canvas.get_tk_widget().pack()
 
@@ -207,29 +127,24 @@ class CurrentGraph(tk.Frame):
         canvas._tkcanvas.pack()
 
 
-# class VoltageGraph(tk.Frame):
-#     def __init__(self, parent, controller):
-#         tk.Frame.__init__(self, parent)
-
-#         label1 = ttk.Label(self, text='Voltage')
-#         label1.pack()
-
-#         btn1 = ttk.Button(self, text='<- back',
-#                           command=lambda: controller.show_frame(StartPage))
-#         btn1.pack()
-
-#         canvas = FigureCanvasTkAgg(fV, self)
-#         canvas.draw()
-#         canvas.get_tk_widget().pack()
-
-#         toolbar = NavigationToolbar2Tk(canvas, self)
-#         toolbar.update()
-#         canvas._tkcanvas.pack()
-
-
 window = Gui()
-ani = animation.FuncAnimation(fI, animate, 2000)
-# ani1 = animation.FuncAnimation(fV, animate, 2000)
-# ani = animation.FuncAnimation(fI, animate, 2000)
-# ani = animation.FuncAnimation(fI, animate, 2000)
+ani = animation.FuncAnimation(fig, animate, 5000)
+
 window.mainloop()
+
+
+# colors
+# 'r' 	Red
+# 'g' 	Green
+# 'b' 	Blue
+# 'c' 	Cyan
+# 'm' 	Magenta
+# 'y' 	Yellow
+# 'k' 	Black
+# 'w' 	White
+
+# line
+# '-' 	Solid line
+# ':' 	Dotted line
+# '--' 	Dashed line
+# '-.' 	Dashed/dotted line
