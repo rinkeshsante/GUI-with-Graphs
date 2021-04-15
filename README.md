@@ -15,3 +15,4 @@ pip install matplotlib
 
 sudo pip3 install tk  
 sudo pip3 install matplotlib
+sudo pip3 install numpy
