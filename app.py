@@ -15,23 +15,58 @@ from matplotlib import pyplot as plt
 matplotlib.use('TkAgg')
 
 # current graph
-fig = Figure()
+fig = Figure(figsize=(8, 4))
 
-plt1 = fig.add_subplot(211)
-plt2 = fig.add_subplot(212)
+plt1 = fig.add_subplot(111)
+# plt2 = fig.add_subplot(212)
 
 
 def animate(i):
+    # add csv path
     data = pd.read_csv('sample.csv')
 
-    print('refresed')
-    print(data)
+    # print('refresed')
+    # print(data)
+
+    # data = pd.DataFrame(data)
+    data = np.array(data)
+    # print(data.power.tolist())
+
+    t = []
+    i = []
+    p = []
+    v = []
+    e = []
+
+    for row in data:
+        print(row)
+
+        t.append(row[0])
+        v.append(row[1])
+        i.append(row[2])
+        p.append(row[3])
+        e.append(row[4])
+
+    # time = data[(data['type'] == "timestamp")]
+    # power = data[(data['type'] == "power")]
+
+    # print('---', t, p)
 
     plt1.clear()
-    plt1.plot(data)
+    # plt1.plot(data)
+    # df[['Open','High','Low','Close','100MA']].plot()
 
-    plt2.clear()
-    plt2.plot(data)
+    plt1.plot(t, p, 'g', label='power')
+    plt1.plot(t, i, 'y', label='current')
+    plt1.plot(t, v, 'm', label='voltage')
+    plt1.plot(t, e, 'c', label='efficiency')
+    # plt1.plot()
+    plt1.legend()
+
+    plt1.set_title('i vs p')
+
+    # plt2.clear()
+    # plt2.plot(data)
 
 
 class Gui(tk.Tk):
